@@ -1,82 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Persona, Persone } from './models/persona';
-import { Dettaglio, dettaglio } from './models/dettaglio';
+import React, { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Persona, Persone } from "./models/persona";
+import { url } from "inspector";
 
 function App() {
-
-  const [dettaglio, setDettaglio] = useState<Dettaglio>();
+  type Dettaglio = {
+    persona: Persona;
+    index: number;
+  };
+  
+  const aziende = ["https://www.links-srl.it/", "https://ita.finconsgroup.com/", "https://www.vidyasoft.it/"]
+  const [dettaglio, setDettaglio] = useState<string>();
   const [persone, setPersone] = useState<Persone>();
-  const PERSONE_URL = 'https://raw.githubusercontent.com/alemarra89/its2224/main/its2224.json'
+  const PERSONE_URL =
+    "https://raw.githubusercontent.com/alemarra89/its2224/main/its2224.json";
+  
 
   const getPersone = () => {
     fetch(PERSONE_URL)
       .then((res) => res.json())
       .then((result: Persone) => {
-        console.log('result', result);
+        console.log("result", result);
         setPersone(result);
       });
   };
 
-  const getDettaglio = (dettaglio : Dettaglio) =>{
-    fetch(dettaglio.persona.immagine)
-      .then((res)=>res.json())
-      .then((result : Dettaglio) => {
-        console.log("result",result);
-        setDettaglio(result)
-      })
-  }
+  const getDettaglio = (immagine: string) => {
+    console.log("bisnelo");
+    setDettaglio(immagine);
+  };
 
-  useEffect(()=> {
-    getPersone(); 
-  },[]);
+  useEffect(() => {
+    getPersone();
+  }, []);
 
   return (
-    <div className='App'>
-      <div style={{ display: 'flex' }}>
+    <div className="App">
+      <div style={{ display: "flex" }}>
         <div
           style={{
             flex: 2,
             borderRight: "1px solid #CCC",
             height: "100vh",
             overflowY: "scroll",
-            backgroundImage:
-              'url("https://images7.alphacoders.com/130/1304684.png")',
-          }}>   
-            <div>
-              <h2>LISTA STUDENTI</h2>
-              <div style={{padding:20}}>
-                  {persone?.map((persone,index)=>(
-                    <div
-                    style={{
-                      textAlign: "left",
-                      padding: 20,
-                      border: "1px solid #CCC",
-                      borderRadius: 20,
-                      marginBottom: 5,
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      backgroundColor: "rgba(255,255,255,.8)",
-                    }}
-                    onClick={() => getDettaglio()}>
-                      {persone.nome}, {persone.cognome}
-                    </div>
-                  ))}
-              </div>
-            </div>     
+            backgroundImage: "url(https://www.sistemaitspuglia.it/wp-content/uploads/2019/03/apulia_logo_png-1.png)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize:"contain",
+          }}
+        >
+          <div>
+            <h2>LISTA STUDENTI</h2>
+            <div style={{ padding: 20 }}>
+              {persone?.map((persone, index) => (
+                <div
+                  style={{
+                    textAlign: "left",
+                    padding: 20,
+                    border: "1px solid #CCC",
+                    borderRadius: 20,
+                    marginBottom: 5,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  onClick={() => getDettaglio(persone.immagine)}
+                  
+                >
+                  {persone.nome}, {persone.cognome}
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ flex: 1}}>
-            <h1>SIUMMICO URLO</h1>
-            
-
+        </div>
+        <div style={{ flex: 1 }}>
+          <h1>SIUMMICO URLO</h1>
+          <div>
+            <img src={dettaglio} alt="Immagine della persona" width={500} height={500}/>
           </div>
+          <div>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"><h2>SCOPRI DOVE SEI FINITO</h2></a>
+          </div> 
+        </div>
       </div>
     </div>
-
-
-  )
+  );
 }
 
 export default App;
