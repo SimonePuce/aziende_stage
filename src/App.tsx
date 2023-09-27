@@ -3,19 +3,20 @@ import logo from "./logo.svg";
 import "./App.css";
 import { Persona, Persone } from "./models/persona";
 import { url } from "inspector";
+import { deepEqual } from "assert";
 
 function App() {
   type Dettaglio = {
     persona: Persona;
     index: number;
   };
-  
+
   const aziende = ["https://www.links-srl.it/", "https://ita.finconsgroup.com/", "https://www.vidyasoft.it/"]
   const [dettaglio, setDettaglio] = useState<Persona>();
   const [persone, setPersone] = useState<Persone>();
   const PERSONE_URL =
     "http://localhost:8080/api/alunni/getAlunni";
-  
+
 
   const getPersone = () => {
     fetch(PERSONE_URL)
@@ -46,7 +47,7 @@ function App() {
             overflowY: "scroll",
             backgroundImage: "url(https://www.sistemaitspuglia.it/wp-content/uploads/2019/03/apulia_logo_png-1.png)",
             backgroundRepeat: "no-repeat",
-            backgroundSize:"contain",
+            backgroundSize: "contain",
           }}
         >
           <div>
@@ -65,7 +66,7 @@ function App() {
                     alignItems: "center",
                   }}
                   onClick={() => getDettaglio(persone)}
-                  
+
                 >
                   {persone.nome}, {persone.cognome}
                 </div>
@@ -74,13 +75,13 @@ function App() {
           </div>
         </div>
         <div style={{ flex: 1 }}>
-          <h1>SIUMMICO URLO</h1>
+          <h1> {dettaglio?.nome} - {dettaglio?.cognome}</h1>
           <div>
-            <img src={dettaglio?.immagine} alt="Immagine della persona" width={500} height={500}/>
+            <img src={dettaglio?.immagine} alt="Immagine della persona" width={500} height={500} />
           </div>
           <div>
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"><h2>SCOPRI DOVE SEI FINITO</h2></a>
-          </div> 
+            <a href={dettaglio?.azienda}><h2>SCOPRI DOVE SEI FINITO</h2></a>
+          </div>
         </div>
       </div>
     </div>
