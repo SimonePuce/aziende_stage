@@ -11,10 +11,10 @@ function App() {
   };
   
   const aziende = ["https://www.links-srl.it/", "https://ita.finconsgroup.com/", "https://www.vidyasoft.it/"]
-  const [dettaglio, setDettaglio] = useState<string>();
+  const [dettaglio, setDettaglio] = useState<Persona>();
   const [persone, setPersone] = useState<Persone>();
   const PERSONE_URL =
-    "https://raw.githubusercontent.com/alemarra89/its2224/main/its2224.json";
+    "http://localhost:8080/api/alunni/getAlunni";
   
 
   const getPersone = () => {
@@ -26,9 +26,9 @@ function App() {
       });
   };
 
-  const getDettaglio = (immagine: string) => {
+  const getDettaglio = (persona: Persona) => {
     console.log("bisnelo");
-    setDettaglio(immagine);
+    setDettaglio(persona);
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function App() {
                     display: "flex",
                     alignItems: "center",
                   }}
-                  onClick={() => getDettaglio(persone.immagine)}
+                  onClick={() => getDettaglio(persone)}
                   
                 >
                   {persone.nome}, {persone.cognome}
@@ -76,7 +76,7 @@ function App() {
         <div style={{ flex: 1 }}>
           <h1>SIUMMICO URLO</h1>
           <div>
-            <img src={dettaglio} alt="Immagine della persona" width={500} height={500}/>
+            <img src={dettaglio?.immagine} alt="Immagine della persona" width={500} height={500}/>
           </div>
           <div>
             <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"><h2>SCOPRI DOVE SEI FINITO</h2></a>
